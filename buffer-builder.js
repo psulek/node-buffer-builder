@@ -1,7 +1,7 @@
 module.exports = BufferBuilder;
 
 function BufferBuilder(initialCapacity) {
-  var buffer = Buffer.isBuffer(initialCapacity) ? initialCapacity : new Buffer(initialCapacity || 512);
+  var buffer = Buffer.isBuffer(initialCapacity) ? initialCapacity : Buffer.alloc(initialCapacity || 512);
   this.buffers = [buffer];
 
   this.writeIndex = 0;
@@ -26,7 +26,7 @@ BufferBuilder.prototype.appendBuffer = function(source) {
     }
     // Fit the rest into a new buffer. Make sure it is at least as big as
     // what we're being asked to add, and also follow our double-previous-buffer pattern.
-    var newBuf = new Buffer(Math.max(tail.length*2, source.length));
+    var newBuf = Buffer.alloc(Math.max(tail.length*2, source.length));
     
     this.buffers.push(newBuf);
     this.writeIndex = source.copy(newBuf, 0, spaceInCurrent);
@@ -45,7 +45,7 @@ function makeAppender(encoder, size) {
       this.writeIndex += size;
       this.length += size;
     } else {
-      var scratchBuffer = new Buffer(size);
+      var scratchBuffer = Buffer.alloc(size);
       encoder.call(scratchBuffer, x, 0, true);
       this.appendBuffer(scratchBuffer);
     }
@@ -70,7 +70,7 @@ BufferBuilder.prototype.appendDoubleLE = makeAppender(Buffer.prototype.writeDoub
 BufferBuilder.prototype.appendDoubleBE = makeAppender(Buffer.prototype.writeDoubleBE, 8);
 
 BufferBuilder.prototype.appendString = function(str, encoding) {
-  return this.appendBuffer(new Buffer(str, encoding));
+  return this.appendBuffer(Buffer.from(str, encoding));
 };
 
 BufferBuilder.prototype.appendStringZero = function(str, encoding) {
@@ -94,7 +94,7 @@ BufferBuilder.prototype.appendFill = function(value, count) {
     }
     // Fit the rest into a new buffer. Make sure it is at least as big as
     // what we're being asked to add, and also follow our double-previous-buffer pattern.
-    var newBuf = new Buffer(Math.max(tail.length*2, count));
+    var newBuf = Buffer.alloc(Math.max(tail.length*2, count));
     var couldNotFit = count - spaceInCurrent;
     newBuf.fill(value, 0, couldNotFit);
     this.buffers.push(newBuf);
@@ -108,7 +108,7 @@ BufferBuilder.prototype.appendFill = function(value, count) {
 
 /* Convert to a plain Buffer */
 BufferBuilder.prototype.get = function() {
-  var concatted = new Buffer(this.length);
+  var concatted = Buffer.alloc(this.length);
   this.copy(concatted);
   return concatted;
 };

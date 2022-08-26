@@ -1,21 +1,29 @@
 {
-    "name" : "buffer-builder",
-    "version" : "0.2.0",
-    "description" : "Build a buffer without knowing its size beforehand",
-    "main" : "buffer-builder",
-    "repository" : {
-        "type" : "git",
-        "url" : "http://github.com/PeterReid/node-buffer-builder.git"
+    "name": "@psulek/buffer-builder",
+    "private": false,
+    "version": "0.2.0",
+    "description": "Fork of node-buffer-builder to fix buffer-constructor-deprecation error",
+    "main": "buffer-builder",
+    "scripts": {
+        "test": "node test/buffer-builder-test.js"
     },
-    "keywords" : [
-        "buffer-builder", "buffer"
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/PeterReid/node-buffer-builder.git"
+    },
+    "keywords": [
+        "buffer-builder",
+        "buffer"
     ],
-    "author" : {
-        "name" : "Peter Reid",
-        "email" : "peter.d.reid@gmail.com"
+    "author": {
+        "name": "Peter Reid",
+        "email": "peter.d.reid@gmail.com"
     },
-    "license" : "MIT/X11",
-    "engine" : {
-        "node" : ">=0.6.0"
+    "license": "MIT/X11",
+    "engine": {
+        "node": ">=6.0.0"
+    },
+    "devDependencies": {
+        "@types/node": "^18.7.13"
     }
 }
